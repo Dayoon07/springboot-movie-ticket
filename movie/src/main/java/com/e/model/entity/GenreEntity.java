@@ -1,15 +1,22 @@
 package com.e.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
+@Entity
+@Table(name = "MOVIE_GENRES")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class GenreEntity {
-	private Long genreId;
+	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "genre_id", nullable = false, unique = true)
+    private Long genreId;
+
+    @Column(name = "genre_name", nullable = false)
     private String genreName;
+    
 }
