@@ -52,6 +52,33 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>3.0.4</version>
 		</dependency>
+		
+		<!-- spring boot jsp 파싱 -->
+		<dependency>
+	    	<groupId>org.apache.tomcat.embed</groupId>
+	    	<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+		
+		<!-- jakarta (servlet, jstl, jstl-api, (jakarta는 spring boot 3.0 버전 이상에서만)) -->
+	    <dependency>
+	    	<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.servlet.jsp.jstl</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>6.1.7.Final</version> <!-- 또는 그 이상의 버전 -->
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
