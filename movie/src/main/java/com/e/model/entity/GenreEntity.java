@@ -16,7 +16,7 @@ public class GenreEntity {
     @Column(name = "genre_id", nullable = false, unique = true)
     private Long genreId;
 
-    @Column(name = "genre_name", nullable = false)
+    @Column(name = "genre_name", nullable = false, length = 50)
     private String genreName;
     
 }

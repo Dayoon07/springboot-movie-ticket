@@ -29,11 +29,14 @@ public class UserEntity {
 	@Column(name = "phone", nullable = false, unique = true)
     private String phone;
 	
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
     private String name;
 	
-	@Column(name = "email")
+	@Column(name = "email", nullable = false)
     private String email;
+	
+	@Column(name = "password", nullable = false)
+	private String password;
 	
 	@Column(name = "create_at")
     private LocalDateTime createAt;

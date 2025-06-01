@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,15 +39,15 @@ public class MovieEntity {
     private String posterImageUrl;
 
     @ManyToOne
-    @JoinColumn(name = "rating_id")
-    private RatingEntity rating;
+    @JoinColumn(name = "rating_id", foreignKey = @ForeignKey(name = "fk_movie_rating"))
+    private RatingEntity ratingId;
 
     @ManyToOne
-    @JoinColumn(name = "genre_id")
+    @JoinColumn(name = "genre_id", foreignKey = @ForeignKey(name = "fk_movie_genre"))
     private GenreEntity genre;
 
     @ManyToOne
-    @JoinColumn(name = "age_rating_id")
+    @JoinColumn(name = "age_rating_id", foreignKey = @ForeignKey(name = "fk_movie_age_rating"))
     private AgeRatingEntity ageRating;
 
     @Column(name = "status")

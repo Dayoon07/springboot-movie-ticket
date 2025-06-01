@@ -12,12 +12,12 @@ import lombok.*;
 public class DetailEntity {
 	
 	@Id
-	@Column(name = "movie_id")
+	@Column(name = "movie_id", nullable = false, unique = true)
     private Long movieId;
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "movie_id")
+    @JoinColumn(name = "movie_id", nullable = false, foreignKey = @ForeignKey(name = "fk_details_movie"))
     private MovieEntity movie;
 
     @Lob

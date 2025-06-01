@@ -16,5 +16,6 @@ public class UserVo {
     private String phone;
     private String name;
     private String email;
+    private String password;
     private LocalDateTime createAt;
 }
