@@ -1,22 +1,26 @@
 package com.e.model.vo;
 
+import lombok.*;
 import java.time.LocalDateTime;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ReservationVo {
-	private Long reservationId;
-	private Long userId;
-	private Long showtimeId;
-	private LocalDateTime reservationDate;
-	private int totalAmount;
-	private String reservationStatus;
-	private String reservationCode;
+    private Long reservationId;
+    private Long userId;
+    private Long showtimeId;
+    private LocalDateTime reservationDate;
+    private Integer totalAmount;
+    private String reservationStatus;
+    private String reservationCode;
+    private String reservedSeats;
+    private String paymentMethod;
+    private LocalDateTime paymentDate;
+    private String paymentStatus;
+    private String transactionId;
+    
+    private UserVo user;
+    private ShowtimeVo showtime;
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e.model.mapper.ShowtimeMapper">
+
+	<resultMap id="ShowtimeResultMap" type="com.e.model.vo.ShowtimeVo">
+	    <id property="showtimeId" column="showtime_id"/>
+	    <result property="showDate" column="show_date"/>
+	    <result property="startTime" column="start_time"/>
+	    <result property="endTime" column="end_time"/>
+	    <result property="availableSeats" column="available_seats"/>
+	    <result property="price" column="price"/>
+	    <result property="status" column="status"/>
+	</resultMap>
+
+	<resultMap id="ShowtimeMovieCinemaResultMap" type="com.e.model.vo.ShowtimeVo">
+	    <id property="showtimeId" column="showtime_id"/>
+	    <result property="showDate" column="show_date"/>
+	    <result property="startTime" column="start_time"/>
+	    <result property="endTime" column="end_time"/>
+	    <result property="availableSeats" column="available_seats"/>
+	    <result property="price" column="price"/>
+	    <result property="status" column="status"/>
+	
+	    <association property="movie" javaType="com.e.model.vo.MovieVo" />
+	    <association property="cinema" javaType="com.e.model.vo.CinemaVo" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="ShowtimeResultMap">
+		SELECT * FROM movie_showtimes
+	</select>
+
+</mapper>

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,36 +25,40 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ShowtimeEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "showtime_id", nullable = false, unique = true)
 	private Long showtimeId;
 	
-	@ManyToOne
-	@JoinColumn(name = "movie_id", nullable = false, foreignKey = @ForeignKey(name = "fk_showtime_movie"))
-    private MovieEntity movieId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name =  "movie_id", nullable = false, 
+		foreignKey = @ForeignKey(name = "fk_showtime_movie")
+	)
+	private MovieEntity movieId;
 	
 	@ManyToOne
-    @JoinColumn(name = "theater_id", nullable = false, foreignKey = @ForeignKey(name = "fk_showtime_theater"))
-    private TheaterEntity theaterId;
+	@JoinColumn(name = "cinema_id", nullable = false, 
+		foreignKey = @ForeignKey(name = "fk_showtime_cinema")
+	)
+	private CinemaEntity cinemaId;
 	
 	@Column(name = "show_date", nullable = false)
     private LocalDate showDate;
-	
-	@Column(name = "start_time", nullable = false)
+
+    @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
-	
-	@Column(name = "end_time")
+
+    @Column(name = "end_time")
     private LocalDateTime endTime;
-	
-	@Column(name = "available_seats")
-    private int availableSeats;
-	
-	@Column(name = "price", nullable = false)
-    private int price;
-	
-	@Column(name=  "status")
+
+    @Column(name = "available_seats")
+    private Integer availableSeats;
+
+    @Column(name = "price", nullable = false)
+    private Integer price;
+
+    @Column(name = "status")
     private String status;
-	
+
 }

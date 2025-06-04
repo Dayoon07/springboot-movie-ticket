@@ -3,9 +3,9 @@ package com.e.model.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TheaterService {
+public class CinemaService {
 
-	public TheaterService() {
+	public CinemaService() {
 		// TODO Auto-generated constructor stub
 	}
 

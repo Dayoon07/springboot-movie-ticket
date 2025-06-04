@@ -1,25 +1,26 @@
 package com.e.model.vo;
 
+import lombok.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MovieVo {
-	private Long movieId;
+    private Long movieId;
     private String title;
-    private LocalDateTime releaseDate;
+    private LocalDate releaseDate;
     private String posterImageUrl;
-    private Long ratingId;
-    private Long genreId;
-    private Long ageRatingId;
-    private String status;
+    private String genre;
+    private String rating;
+    private String ageRating;
+    private String synopsis;
+    private Integer duration;
+    private String language;
+    private String country;
+    private String releaseType;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 }

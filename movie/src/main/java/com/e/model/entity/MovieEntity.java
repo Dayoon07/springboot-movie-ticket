@@ -1,20 +1,12 @@
 package com.e.model.entity;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "MOVIE_MOVIES")
@@ -23,40 +15,52 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MovieEntity {
-	
-	@Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "movie_id", nullable = false, unique = true)
+    @Column(name = "movie_id", nullable = false, unique = true)
     private Long movieId;
 
     @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "release_date")
-    private LocalDateTime releaseDate;
+    private LocalDate releaseDate;
 
     @Column(name = "poster_image_url")
     private String posterImageUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "rating_id", foreignKey = @ForeignKey(name = "fk_movie_rating"))
-    private RatingEntity ratingId;
+    @Column(name = "genre")
+    private String genre;
 
-    @ManyToOne
-    @JoinColumn(name = "genre_id", foreignKey = @ForeignKey(name = "fk_movie_genre"))
-    private GenreEntity genre;
+    @Column(name = "rating")
+    private String rating;
 
-    @ManyToOne
-    @JoinColumn(name = "age_rating_id", foreignKey = @ForeignKey(name = "fk_movie_age_rating"))
-    private AgeRatingEntity ageRating;
+    @Column(name = "age_rating")
+    private String ageRating;
 
-    @Column(name = "status")
-    private String status;
+    @Lob
+    @Column(name = "synopsis")
+    private String synopsis;
 
-    @Column(name = "created_date")
+    @Column(name = "duration")
+    private Integer duration;
+
+    @Column(name = "language")
+    private String language;
+
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "release_type")
+    private String releaseType;
+
+    @CreationTimestamp
+    @Column(name = "created_date", updatable = false)
     private LocalDateTime createdDate;
 
-    @Column(name = "updated_date")
+    @CreationTimestamp
+    @Column(name = "updated_date", updatable = false)
     private LocalDateTime updatedDate;
-	
+
 }

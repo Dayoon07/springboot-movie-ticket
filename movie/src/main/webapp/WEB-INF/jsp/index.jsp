@@ -10,6 +10,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
-	형식상 있는 index.jsp
+	<h1>형식상 있는 index.jsp</h1>
 </body>
 </html>

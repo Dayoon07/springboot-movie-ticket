@@ -2,16 +2,10 @@ package com.e.model.entity;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "MOVIE_USERS")
@@ -20,25 +14,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UserEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id", nullable = false, unique = true)
 	private Long userId;
 	
 	@Column(name = "phone", nullable = false, unique = true)
-    private String phone;
+	private String phone;
 	
 	@Column(name = "name", nullable = false)
-    private String name;
+	private String name;
 	
 	@Column(name = "email", nullable = false)
-    private String email;
+	private String email;
 	
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "create_at")
-    private LocalDateTime createAt;
+	@CreationTimestamp
+	@Column(name = "create_at", updatable = false)
+	private LocalDateTime createAt;
 
 }
