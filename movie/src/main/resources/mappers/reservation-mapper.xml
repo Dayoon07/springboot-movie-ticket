@@ -17,6 +17,13 @@
 	    <association property="user" javaType="com.e.model.vo.UserVo" />
 	    <association property="showtime" javaType="com.e.model.vo.ShowtimeVo" />
 	</resultMap>
+	
+	<select id="findReservedSeatsByShowtimeId" resultType="string">
+        SELECT reserved_seats
+        FROM MOVIE_RESERVATIONS
+        WHERE showtime_id = #{showtimeId}
+          AND reservation_status = 'CONFIRMED'
+    </select>
 		
 
 </mapper>

@@ -21,13 +21,13 @@ public class ReservationEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_reservation_user"))
-    private UserEntity userId;
+    private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "showtime_id", nullable = false, 
     	foreignKey = @ForeignKey(name = "fk_reservation_showtime")
     )
-    private ShowtimeEntity showtimeId;
+    private ShowtimeEntity showtime;
 
     @CreationTimestamp
     @Column(name = "reservation_date")

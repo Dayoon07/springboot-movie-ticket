@@ -11,5 +11,31 @@
 </head>
 <body>
 	<h1>형식상 있는 index.jsp</h1>
+	
+	<form action="${ cl }/signup" method="post" autocomplete="off">	
+		<div>
+			<label for="name">이름</label><br />
+			<input type="text" name="name" id="name" style="width: 100px;" required>
+		</div>
+		
+		<div>
+			<label for="email">이메일</label><br />
+			<input type="text" name="email" id="email" style="width: 100px;" required>
+		</div>
+		
+		<div>
+			<label for="password">비밀번호</label><br />
+			<input type="text" name="password" id="password" style="width: 100px;" required>
+		</div>
+		
+		<div>
+			<label for="p1">전화번호</label> <br />
+			<input type="text" name="p1" id="p1" style="width: 70px;" maxlength="3" required> - 
+			<input type="text" name="p2" id="p2" style="width: 70px;" maxlength="4" required> - 
+			<input type="text" name="p3" id="p3" style="width: 70px;" maxlength="4" required>
+		</div><br />
+		
+		<button type="submit">회원가입</button>
+	</form>
 </body>
 </html>
