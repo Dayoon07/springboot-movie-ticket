@@ -31,7 +31,7 @@ public class ShowtimeEntity {
 	@Column(name = "showtime_id", nullable = false, unique = true)
 	private Long showtimeId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name =  "movie_id", nullable = false, 
 		foreignKey = @ForeignKey(name = "fk_showtime_movie")
 	)

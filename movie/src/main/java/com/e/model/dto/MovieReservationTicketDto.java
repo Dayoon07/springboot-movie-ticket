@@ -12,11 +12,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MovieReservationTicketDto {
-	private String cinema;
-	private String date;
+	private Long userId;
+	private Long showtimeId;
 	private String movie;
-	private int people;
-	private List<String> seats;
-	private String time;
-	private int totalAmount;
+	private String poster;
+    private String date;
+    private String time;
+    private int people;
+    private List<String> seats;
+    private String cinema;
+    private String paymentMethod;
+    private int totalAmount;
 }

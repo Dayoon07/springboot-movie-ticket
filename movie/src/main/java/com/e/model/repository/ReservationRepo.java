@@ -7,5 +7,5 @@ import com.e.model.entity.ReservationEntity;
 
 @Repository
 public interface ReservationRepo extends JpaRepository<ReservationEntity, Long> {
-	
+	boolean existsByShowtimeAndReservedSeatsContaining(Long showtime, String seat);
 }

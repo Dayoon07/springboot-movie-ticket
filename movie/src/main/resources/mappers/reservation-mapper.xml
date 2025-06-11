@@ -5,14 +5,13 @@
 	<resultMap id="ReservationResultMap" type="com.e.model.vo.ReservationVo">
 	    <id property="reservationId" column="reservation_id" />
 	    <result property="reservationDate" column="reservation_date" />
+	    <result property="reservationMoviePosterUrl" column="reservation_movie_poster_url" />
 	    <result property="totalAmount" column="total_amount" />
 	    <result property="reservationStatus" column="reservation_status" />
 	    <result property="reservationCode" column="reservation_code" />
 	    <result property="reservedSeats" column="reserved_seats" />
 	    <result property="paymentMethod" column="payment_method" />
 	    <result property="paymentDate" column="payment_date" />
-	    <result property="paymentStatus" column="payment_status" />
-	    <result property="transactionId" column="transaction_id" />
 	
 	    <association property="user" javaType="com.e.model.vo.UserVo" />
 	    <association property="showtime" javaType="com.e.model.vo.ShowtimeVo" />

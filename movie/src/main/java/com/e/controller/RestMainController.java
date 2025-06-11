@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.e.model.dto.MovieBookingDto;
+import com.e.model.dto.MovieDto;
+import com.e.model.dto.MovieInfoDto;
 import com.e.model.dto.MovieReservationTicketDto;
+import com.e.model.entity.CinemaEntity;
 import com.e.model.entity.MovieEntity;
 import com.e.model.entity.ReservationEntity;
 import com.e.model.entity.ShowtimeEntity;
@@ -63,7 +67,6 @@ public class RestMainController {
 			this.message = message;
 		}
 		
-		
 		public String getMessage() {
 			return this.message;
 		}
@@ -77,8 +80,8 @@ public class RestMainController {
 	}
 	
 	@GetMapping("/movie/all")
-	public ResponseEntity<List<MovieEntity>> movieAll() {
-		return ResponseEntity.ok(movieRepo.findAll());
+	public ResponseEntity<List<MovieBookingDto>> movieAll() {
+		return ResponseEntity.ok(movieService.getMovieBookingList());
 	}
 
 	@PostMapping("/user/admin/login")
@@ -124,18 +127,18 @@ public class RestMainController {
 	            ));
 	        }
 	        
-	        // 여기서 실제 비즈니스 로직 처리
+	        // 여기서 비즈니스 로직 처리
 	        // 1. 좌석 중복 체크
 	        // 2. 데이터베이스에 예약 정보 저장
 	        // 3. 결제 처리 등
+	        reservationService.reserved(req);
 	        
-	        // 예약 ID 생성 (실제로는 DB에서 생성된 ID 사용)
 	        String reservationId = "RES" + System.currentTimeMillis();
 	        
 	        // 성공 응답
 	        Map<String, Object> response = new HashMap<>();
 	        response.put("success", true);
-	        response.put("message", "예약이 성공적으로 완료되었습니다.");
+			response.put("message", "예약이 성공적으로 완료되었습니다.");
 	        response.put("reservationId", reservationId);
 	        response.put("movie", req.getMovie());
 	        response.put("date", req.getDate());
@@ -159,5 +162,25 @@ public class RestMainController {
     public List<String> getOccupiedSeats(@RequestParam Long showtimeId) {
         return reservationService.getOccupiedSeats(showtimeId);
     }
+	
+	@GetMapping("/movies")
+	public ResponseEntity<List<MovieEntity>> getAllMovies() {
+		return ResponseEntity.ok(movieRepo.findAll());
+	}
+	
+	@GetMapping("/showtimes")
+	public ResponseEntity<List<ShowtimeEntity>> getAllShowtime() {
+		return ResponseEntity.ok(showtimeRepo.findAll());
+	}
+	
+	@GetMapping("/cinemas")
+	public ResponseEntity<List<CinemaEntity>> getAllCinema() {
+		return ResponseEntity.ok(cinemaRepo.findAll());
+	}
+	
+	@GetMapping("/movie/info/{movieId}")
+	public ResponseEntity<List<MovieInfoDto>> getMovieInfo() {
+		return ResponseEntity.ok(movieService.selectMovieOneInfo());
+	}
 	
 }

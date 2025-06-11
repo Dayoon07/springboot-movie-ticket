@@ -11,6 +11,7 @@ public class ReservationVo {
     private Long reservationId;
     private Long userId;
     private Long showtimeId;
+    private String reservationMoviePosterUrl;
     private LocalDateTime reservationDate;
     private Integer totalAmount;
     private String reservationStatus;
@@ -18,7 +19,6 @@ public class ReservationVo {
     private String reservedSeats;
     private String paymentMethod;
     private LocalDateTime paymentDate;
-    private String paymentStatus;
     private String transactionId;
     
     private UserVo user;

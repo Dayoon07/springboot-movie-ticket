@@ -1,11 +1,40 @@
 package com.e.model.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.e.model.dto.MovieBookingDto;
+import com.e.model.dto.MovieDto;
+import com.e.model.dto.MovieInfoDto;
+import com.e.model.mapper.MovieMapper;
+
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class MovieService {
 
-	public MovieService() {
+	private final MovieMapper movieMapper;
+	
+	public List<MovieDto> getMovieAllList() {
+		return movieMapper.selectAvailableShowtimes();
 	}
-
+	
+	public List<MovieInfoDto> selectMovieOneInfo() {
+		return movieMapper.selectMovieOneInfo();
+	}
+	
+	public List<MovieBookingDto> getMovieBookingList() {
+		return movieMapper.getMovieBookingList();
+	}
+	
+	public List<MovieBookingDto> getMovieShowtimes(Long movieId) {
+		return movieMapper.getMovieShowtimes(movieId);
+	}
+	
+	public List<MovieBookingDto> getMovieBookingListByDate(String showDate) {
+		return movieMapper.getMovieBookingListByDate(showDate);
+	}
+	
 }

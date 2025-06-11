@@ -19,15 +19,19 @@ public class ReservationEntity {
     @Column(name = "reservation_id")
     private Long reservationId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_reservation_user"))
     private UserEntity user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "showtime_id", nullable = false, 
     	foreignKey = @ForeignKey(name = "fk_reservation_showtime")
     )
     private ShowtimeEntity showtime;
+    
+    @Lob
+    @Column(name = "reservation_movie_poster_url")
+    private String reservationMoviePosterUrl;
 
     @CreationTimestamp
     @Column(name = "reservation_date")
@@ -51,9 +55,6 @@ public class ReservationEntity {
     @CreationTimestamp
     @Column(name = "payment_date")
     private LocalDateTime paymentDate;
-
-    @Column(name = "payment_status")
-    private String paymentStatus;
 
     @Column(name = "transaction_id")
     private String transactionId;
