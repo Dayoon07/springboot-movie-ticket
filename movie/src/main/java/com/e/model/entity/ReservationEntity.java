@@ -55,8 +55,5 @@ public class ReservationEntity {
     @CreationTimestamp
     @Column(name = "payment_date")
     private LocalDateTime paymentDate;
-
-    @Column(name = "transaction_id")
-    private String transactionId;
     
 }

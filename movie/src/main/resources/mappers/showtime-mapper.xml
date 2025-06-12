@@ -28,5 +28,11 @@
 	<select id="selectAll" resultMap="ShowtimeResultMap">
 		SELECT * FROM movie_showtimes
 	</select>
+	
+	<update id="updateReservationMovieTicketSeat" parameterType="Long">
+		UPDATE MOVIE_SHOWTIMES 
+		SET available_seats = available_seats - #{people}
+		WHERE showtime_id = #{showtimeId}
+	</update>
 
 </mapper>

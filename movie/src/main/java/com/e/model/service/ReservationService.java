@@ -1,8 +1,11 @@
 package com.e.model.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -47,6 +50,7 @@ public class ReservationService {
 
         // 중복 좌석 체크 예시 (optional, 단순 비교)
         if (reservationRepo.existsByShowtimeAndReservedSeatsContaining(dto.getShowtimeId(), dto.getSeats().get(0))) {
+        	System.out.println(dto); 
             throw new IllegalArgumentException("이미 예약된 좌석이 포함되어 있습니다.");
         }
 
@@ -63,18 +67,29 @@ public class ReservationService {
             .user(user)
             .showtime(showtime)
             .reservedSeats(String.join(",", dto.getSeats()))
-            .reservationMoviePosterUrl(dto.getPoster())
-            .totalAmount(dto.getTotalAmount())
+            .reservationMoviePosterUrl(dto.getMoviePosterImageUrl())
+            .totalAmount(dto.getTotalPrice())
             .reservationStatus("CONFIRMED")
-            .reservationCode("RES" + System.currentTimeMillis())
+            .reservationCode(randVariable())
             .paymentMethod(dto.getPaymentMethod())
-            .transactionId("TX-" + UUID.randomUUID()) // 임시 트랜잭션 ID
             .build();
 
         reservationRepo.save(entity);
     }
 	
-	
+	public String randVariable() {
+		String today = LocalDate.now().format(DateTimeFormatter.ofPattern("MMdd"));
+
+		Random random = new Random();
+		int random4_1 = random.nextInt(9000) + 1000; // 1000-9999
+		int random4_2 = random.nextInt(9000) + 1000; // 1000-9999
+		int random3 = random.nextInt(900) + 100; // 100-999
+
+		String s = String.format("%s-%04d-%04d-%03d", today, random4_1, random4_2, random3);
+		System.out.println(s);
+		return s;
+	}
+
 	
 	
 	

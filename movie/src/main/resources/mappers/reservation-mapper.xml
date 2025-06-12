@@ -17,11 +17,42 @@
 	    <association property="showtime" javaType="com.e.model.vo.ShowtimeVo" />
 	</resultMap>
 	
+	<resultMap type="com.e.model.dto.MovieReservationDto" id="MovieReservationCodeResultMap">
+		<result property="reservationCode" column="reservation_code" />
+		<result property="customerName" column="customer_name" />
+		<result property="phone" column="phone" />
+		<result property="movieTitle" column="movie_title" />
+		<result property="cinemaName" column="cinema_name" />
+		<result property="showtime" column="showtime" />
+		<result property="reservedSeats" column="reserved_seats" />
+		<result property="totalAmount" column="total_amount" />
+		<result property="reservationStatus" column="reservation_status" />
+	</resultMap>
+	
 	<select id="findReservedSeatsByShowtimeId" resultType="string">
         SELECT reserved_seats
         FROM MOVIE_RESERVATIONS
         WHERE showtime_id = #{showtimeId}
           AND reservation_status = 'CONFIRMED'
+    </select>
+    
+    <select id="selectReservationMovie" parameterType="String" resultMap="MovieReservationCodeResultMap">
+    	SELECT 
+		    r.reservation_code,
+		    u.name AS customer_name,
+		    u.phone,
+		    m.title AS movie_title,
+		    c.cinema_name,
+		    TO_CHAR(s.start_time, 'YYYY-MM-DD HH24:MI') AS showtime,
+		    r.reserved_seats,
+		    r.total_amount,
+		    r.reservation_status
+		FROM MOVIE_RESERVATIONS r
+		JOIN MOVIE_USERS u ON r.user_id = u.user_id
+		JOIN MOVIE_SHOWTIMES s ON r.showtime_id = s.showtime_id
+		JOIN MOVIE_MOVIES m ON s.movie_id = m.movie_id
+		JOIN MOVIE_CINEMAS c ON s.cinema_id = c.cinema_id
+		WHERE r.reservation_code = #{reservedcode}
     </select>
 		
 

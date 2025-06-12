@@ -27,5 +27,6 @@ public class MovieBookingDto {
 	// 상영관 정보
 	private String cinemaName; // 상영관 이름
 	private String cinemaType; // 상영관 타입
+	private String seatLayout;
 
 }

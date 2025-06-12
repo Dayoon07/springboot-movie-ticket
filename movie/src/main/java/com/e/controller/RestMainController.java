@@ -86,10 +86,8 @@ public class RestMainController {
 
 	@PostMapping("/user/admin/login")
 	public ResponseEntity<?> login(@RequestBody UserEntity entity) {
-	    // 이름으로 사용자 검색
 	    UserEntity user = userRepo.findByName(entity.getName()).get(0);
 
-	    // 사용자 존재 여부 및 비밀번호 검증
 	    if (user == null || !passwordEncoder.matches(entity.getPassword(), user.getPassword())) {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 	                .body(Map.of("message", "아이디 또는 비밀번호가 잘못되었습니다."));
@@ -102,60 +100,10 @@ public class RestMainController {
 
 	@PostMapping("/reservation")
 	public ResponseEntity<?> reservationFunc(@RequestBody MovieReservationTicketDto req) {
-	    try {
-	        System.out.println("예약 요청 데이터: " + req);
-	        
-	        // 예약 데이터 검증
-	        if (req.getMovie() == null || req.getMovie().trim().isEmpty()) {
-	            return ResponseEntity.badRequest().body(Map.of(
-	                "success", false,
-	                "message", "영화 정보가 필요합니다."
-	            ));
-	        }
-	        
-	        if (req.getSeats() == null || req.getSeats().isEmpty()) {
-	            return ResponseEntity.badRequest().body(Map.of(
-	                "success", false,
-	                "message", "좌석 정보가 필요합니다."
-	            ));
-	        }
-	        
-	        if (req.getPeople() != req.getSeats().size()) {
-	            return ResponseEntity.badRequest().body(Map.of(
-	                "success", false,
-	                "message", "인원수와 선택한 좌석 수가 일치하지 않습니다."
-	            ));
-	        }
-	        
-	        // 여기서 비즈니스 로직 처리
-	        // 1. 좌석 중복 체크
-	        // 2. 데이터베이스에 예약 정보 저장
-	        // 3. 결제 처리 등
-	        reservationService.reserved(req);
-	        
-	        String reservationId = "RES" + System.currentTimeMillis();
-	        
-	        // 성공 응답
-	        Map<String, Object> response = new HashMap<>();
-	        response.put("success", true);
-			response.put("message", "예약이 성공적으로 완료되었습니다.");
-	        response.put("reservationId", reservationId);
-	        response.put("movie", req.getMovie());
-	        response.put("date", req.getDate());
-	        response.put("time", req.getTime());
-	        response.put("seats", req.getSeats());
-	        response.put("totalAmount", req.getTotalAmount());
-	        response.put("cinema", req.getCinema());
-	        
-	        return ResponseEntity.ok(response);
-	        
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
-	            "success", false,
-	            "message", "서버 오류가 발생했습니다: " + e.getMessage()
-	        ));
-	    }
+	    System.out.println("요청 데이터 : \n" + req);
+	    reservationService.reserved(req);
+	    showtimeService.updateReservationMovieTicketSeat(req.getPeople(), req.getShowtimeId());
+	    return ResponseEntity.ok(req);
 	}
 	
 	@GetMapping("/occupied-seats")
