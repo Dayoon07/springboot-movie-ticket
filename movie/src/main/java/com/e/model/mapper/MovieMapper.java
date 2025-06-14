@@ -11,7 +11,7 @@ import com.e.model.dto.MovieInfoDto;
 @Mapper
 public interface MovieMapper {
 	List<MovieDto> selectAvailableShowtimes();
-	List<MovieInfoDto> selectMovieOneInfo();
+	List<MovieInfoDto> selectMovieOneInfo(Long movieId);
 	List<MovieBookingDto> getMovieBookingList();
 	List<MovieBookingDto> getMovieShowtimes(long movidId);
 	List<MovieBookingDto> getMovieBookingListByDate(String showDate);

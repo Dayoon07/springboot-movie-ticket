@@ -15,8 +15,10 @@ public class MovieReservationDto {
 	private String phone;
 	private String movieTitle;
 	private String cinemaName;
-	private String showtime;
+	private String startShowTime;
 	private String reservedSeats;
 	private String totalAmount;
 	private String reservationStatus;
+	private String reservationMoviePosterUrl;
+	private String ratingAge;
 }

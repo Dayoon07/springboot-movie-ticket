@@ -21,8 +21,8 @@ public class MovieService {
 		return movieMapper.selectAvailableShowtimes();
 	}
 	
-	public List<MovieInfoDto> selectMovieOneInfo() {
-		return movieMapper.selectMovieOneInfo();
+	public List<MovieInfoDto> selectMovieOneInfo(Long movieId) {
+		return movieMapper.selectMovieOneInfo(movieId);
 	}
 	
 	public List<MovieBookingDto> getMovieBookingList() {

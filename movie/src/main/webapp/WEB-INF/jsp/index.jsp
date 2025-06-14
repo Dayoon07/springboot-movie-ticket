@@ -10,32 +10,21 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
-	<h1>형식상 있는 index.jsp</h1>
+	<%@ include file="/common/header.jsp" %>
+	<h1 class="text-2xl font-semibold mb-10">형식상 있는 index.jsp</h1>
 	
-	<form action="${ cl }/signup" method="post" autocomplete="off">	
-		<div>
-			<label for="name">이름</label><br />
-			<input type="text" name="name" id="name" style="width: 100px;" required>
-		</div>
-		
-		<div>
-			<label for="email">이메일</label><br />
-			<input type="text" name="email" id="email" style="width: 100px;" required>
-		</div>
-		
-		<div>
-			<label for="password">비밀번호</label><br />
-			<input type="text" name="password" id="password" style="width: 100px;" required>
-		</div>
-		
-		<div>
-			<label for="p1">전화번호</label> <br />
-			<input type="text" name="p1" id="p1" style="width: 70px;" maxlength="3" required> - 
-			<input type="text" name="p2" id="p2" style="width: 70px;" maxlength="4" required> - 
-			<input type="text" name="p3" id="p3" style="width: 70px;" maxlength="4" required>
-		</div><br />
-		
-		<button type="submit">회원가입</button>
-	</form>
+	<a href="${ cl }/signup" class="text-black border-black border hover:bg-black hover:text-white duration-300 m-4 font-bold py-2 px-4 rounded">
+		관리자 계정 입력
+	</a>
+	
+	<a href="${ cl }/reservation-code" class="text-black border-black border hover:bg-black hover:text-white duration-300 m-4 font-bold py-2 px-4 rounded">
+		영화 예매 코드 확인
+	</a>
+	
+	<a href="${ cl }/analyze" class="text-black border-black border hover:bg-black hover:text-white duration-300 m-4 font-bold py-2 px-4 rounded">
+		영화 예매 프로그램 DB 데이터 시각화
+	</a>
+	
+	<script src="https://cdn.tailwindcss.com/3.4.16"></script>
 </body>
 </html>

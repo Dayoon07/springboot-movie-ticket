@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.e.model.dto.MovieBookingDto;
 import com.e.model.dto.MovieDto;
 import com.e.model.dto.MovieInfoDto;
+import com.e.model.dto.MovieReservationDto;
 import com.e.model.dto.MovieReservationTicketDto;
 import com.e.model.entity.CinemaEntity;
 import com.e.model.entity.MovieEntity;
@@ -103,7 +105,7 @@ public class RestMainController {
 	    System.out.println("요청 데이터 : \n" + req);
 	    reservationService.reserved(req);
 	    showtimeService.updateReservationMovieTicketSeat(req.getPeople(), req.getShowtimeId());
-	    return ResponseEntity.ok(req);
+	    return ResponseEntity.ok(reservationService.randVariable());
 	}
 	
 	@GetMapping("/occupied-seats")
@@ -127,8 +129,26 @@ public class RestMainController {
 	}
 	
 	@GetMapping("/movie/info/{movieId}")
-	public ResponseEntity<List<MovieInfoDto>> getMovieInfo() {
-		return ResponseEntity.ok(movieService.selectMovieOneInfo());
+	public ResponseEntity<List<MovieInfoDto>> getMovieInfo(@PathVariable Long movieId) {
+		return ResponseEntity.ok(movieService.selectMovieOneInfo(movieId));
 	}
+	
+	@GetMapping("/reservation/seats/occupied")
+	public ResponseEntity<List<String>> getMovieReservationSeats(@RequestParam Long showtimeId) {
+		return ResponseEntity.ok(reservationService.selectGetReservationMovieInfo(showtimeId));
+	}
+	
+	@GetMapping("/reservation/movie/info")
+	public ResponseEntity<MovieReservationDto> getReservationMovieTicket(@RequestParam String reservationCode) {
+		return ResponseEntity.ok(reservationService.selectMyReservationMovieTicket(reservationCode));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

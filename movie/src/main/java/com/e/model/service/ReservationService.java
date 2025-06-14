@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.e.model.dto.MovieReservationDto;
 import com.e.model.dto.MovieReservationTicketDto;
 import com.e.model.entity.MovieEntity;
 import com.e.model.entity.ReservationEntity;
@@ -30,9 +31,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReservationService {
 	
-	 private final ReservationRepo reservationRepo;
-	 private final UserRepo userRepo;
-	 private final ShowtimeRepo showtimeRepo;
+	private final ReservationRepo reservationRepo;
+	private final UserRepo userRepo;
+	private final ShowtimeRepo showtimeRepo;
 	
 	private final ReservationMapper reservationMapper;
 	
@@ -47,35 +48,33 @@ public class ReservationService {
     }
 	
 	public void reserved(MovieReservationTicketDto dto) {
+	    // 사용자 조회
+	    UserEntity user = userRepo.findById(dto.getUserId())
+	        .orElseThrow(() -> new IllegalArgumentException("사용자 정보를 찾을 수 없습니다."));
 
-        // 중복 좌석 체크 예시 (optional, 단순 비교)
-        if (reservationRepo.existsByShowtimeAndReservedSeatsContaining(dto.getShowtimeId(), dto.getSeats().get(0))) {
-        	System.out.println(dto); 
-            throw new IllegalArgumentException("이미 예약된 좌석이 포함되어 있습니다.");
-        }
+	    // 상영 정보 조회
+	    ShowtimeEntity showtime = showtimeRepo.findById(dto.getShowtimeId())
+	        .orElseThrow(() -> new IllegalArgumentException("상영 정보를 찾을 수 없습니다."));
 
-        // 사용자 조회 (로그인 기반인 경우)
-        UserEntity user = userRepo.findById(dto.getUserId())
-            .orElseThrow(() -> new IllegalArgumentException("사용자 정보를 찾을 수 없습니다."));
+	    // 중복 좌석 체크
+	    if (reservationRepo.existsByShowtimeAndReservedSeatsContaining(showtime, dto.getSeats().get(0))) {
+	        throw new IllegalArgumentException("이미 예약된 좌석이 포함되어 있습니다.");
+	    }
 
-        // 상영 정보 조회
-        ShowtimeEntity showtime = showtimeRepo.findById(dto.getShowtimeId())
-            .orElseThrow(() -> new IllegalArgumentException("상영 정보를 찾을 수 없습니다."));
+	    // 예약 정보 생성
+	    ReservationEntity entity = ReservationEntity.builder()
+	        .user(user)
+	        .showtime(showtime)
+	        .reservedSeats(String.join(",", dto.getSeats()))
+	        .reservationMoviePosterUrl(dto.getMoviePosterImageUrl())
+	        .totalAmount(dto.getTotalPrice())
+	        .reservationStatus("CONFIRMED")
+	        .reservationCode(randVariable())
+	        .paymentMethod(dto.getPaymentMethod())
+	        .build();
 
-        // 예약 정보 생성
-        ReservationEntity entity = ReservationEntity.builder()
-            .user(user)
-            .showtime(showtime)
-            .reservedSeats(String.join(",", dto.getSeats()))
-            .reservationMoviePosterUrl(dto.getMoviePosterImageUrl())
-            .totalAmount(dto.getTotalPrice())
-            .reservationStatus("CONFIRMED")
-            .reservationCode(randVariable())
-            .paymentMethod(dto.getPaymentMethod())
-            .build();
-
-        reservationRepo.save(entity);
-    }
+	    reservationRepo.save(entity);
+	}
 	
 	public String randVariable() {
 		String today = LocalDate.now().format(DateTimeFormatter.ofPattern("MMdd"));
@@ -90,10 +89,22 @@ public class ReservationService {
 		return s;
 	}
 
+	public List<String> selectGetReservationMovieInfo(Long showtimeId) {
+		List<String> seatStrings = reservationMapper.selectGetReservationMovieInfo(showtimeId);
+		List<String> allReservedSeats = seatStrings.stream()
+		    .filter(Objects::nonNull)
+		    .flatMap(seats -> Arrays.stream(seats.split(",")))
+		    .map(String::trim)
+		    .collect(Collectors.toList());
+		return allReservedSeats;
+	}
 	
+	public MovieReservationDto selectMyReservationMovieTicket(String reservationCode) {
+		return reservationMapper.selectMyReservationMovieTicket(reservationCode);
+	}
 	
-	
-	
-	
+	public List<MovieReservationDto> selectAllReservationMovieTicket() {
+		return reservationMapper.selectAllReservationMovieTicket();
+	}
 	
 }

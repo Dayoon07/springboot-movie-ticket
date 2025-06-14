@@ -23,37 +23,67 @@
 		<result property="phone" column="phone" />
 		<result property="movieTitle" column="movie_title" />
 		<result property="cinemaName" column="cinema_name" />
-		<result property="showtime" column="showtime" />
+		<result property="startShowTime" column="start_time" />
 		<result property="reservedSeats" column="reserved_seats" />
 		<result property="totalAmount" column="total_amount" />
 		<result property="reservationStatus" column="reservation_status" />
+		<result property="reservationMoviePosterUrl" column="reservation_movie_poster_url" />
+		<result property="ratingAge" column="rating_age" />
 	</resultMap>
 	
 	<select id="findReservedSeatsByShowtimeId" resultType="string">
         SELECT reserved_seats
         FROM MOVIE_RESERVATIONS
-        WHERE showtime_id = #{showtimeId}
+        WHERE showtime_id = #{ showtimeId }
           AND reservation_status = 'CONFIRMED'
     </select>
     
-    <select id="selectReservationMovie" parameterType="String" resultMap="MovieReservationCodeResultMap">
+    <select id="selectMyReservationMovieTicket" parameterType="String" resultMap="MovieReservationCodeResultMap">
     	SELECT 
 		    r.reservation_code,
 		    u.name AS customer_name,
 		    u.phone,
 		    m.title AS movie_title,
 		    c.cinema_name,
-		    TO_CHAR(s.start_time, 'YYYY-MM-DD HH24:MI') AS showtime,
+		    TO_CHAR(s.start_time, 'YYYY-MM-DD HH24:MI') AS start_time,
 		    r.reserved_seats,
 		    r.total_amount,
-		    r.reservation_status
+		    r.reservation_status,
+		    r.reservation_movie_poster_url,
+		    m.rating_age 
 		FROM MOVIE_RESERVATIONS r
 		JOIN MOVIE_USERS u ON r.user_id = u.user_id
 		JOIN MOVIE_SHOWTIMES s ON r.showtime_id = s.showtime_id
 		JOIN MOVIE_MOVIES m ON s.movie_id = m.movie_id
 		JOIN MOVIE_CINEMAS c ON s.cinema_id = c.cinema_id
-		WHERE r.reservation_code = #{reservedcode}
+		WHERE r.reservation_code = #{ reservationCode }
     </select>
-		
-
+    
+    <select id="selectAllReservationMovieTicket" resultMap="MovieReservationCodeResultMap">
+    	SELECT 
+		    r.reservation_code,
+		    u.name AS customer_name,
+		    u.phone,
+		    m.title AS movie_title,
+		    c.cinema_name,
+		    TO_CHAR(s.start_time, 'YYYY-MM-DD HH24:MI') AS start_time,
+		    r.reserved_seats,
+		    r.total_amount,
+		    r.reservation_status,
+		    r.reservation_movie_poster_url,
+		    m.rating_age 
+		FROM MOVIE_RESERVATIONS r
+		JOIN MOVIE_USERS u ON r.user_id = u.user_id
+		JOIN MOVIE_SHOWTIMES s ON r.showtime_id = s.showtime_id
+		JOIN MOVIE_MOVIES m ON s.movie_id = m.movie_id
+		JOIN MOVIE_CINEMAS c ON s.cinema_id = c.cinema_id
+    </select>
+    
+    <select id="selectGetReservationMovieInfo" parameterType="Long" resultType="String">
+    	SELECT r.reserved_seats FROM MOVIE_RESERVATIONS r
+		JOIN MOVIE_SHOWTIMES s ON r.showtime_id = s.showtime_id
+		WHERE r.showtime_id = #{showtimeId} 
+		    AND r.reservation_status = 'CONFIRMED'
+    </select>
+    
 </mapper>

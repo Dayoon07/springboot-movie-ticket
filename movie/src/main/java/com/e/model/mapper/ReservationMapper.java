@@ -10,4 +10,7 @@ import com.e.model.dto.MovieReservationDto;
 public interface ReservationMapper {
 	List<String> findReservedSeatsByShowtimeId(Long showtimeId);
 	List<MovieReservationDto> selectReservationMovie(String reservedcode);
+	List<String> selectGetReservationMovieInfo(Long showtimeId);
+	MovieReservationDto selectMyReservationMovieTicket(String reservationCode);
+	List<MovieReservationDto> selectAllReservationMovieTicket();
 }

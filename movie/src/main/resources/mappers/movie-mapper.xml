@@ -131,7 +131,7 @@
 		ORDER BY m.title ASC
 	</select>
 	
-	<select id="selectMovieOneInfo" resultType="com.e.model.dto.MovieInfoDto">
+	<select id="selectMovieOneInfo" resultType="com.e.model.dto.MovieInfoDto" parameterType="Long">
 		SELECT 
 		    s.showtime_id,
 		    TO_CHAR(s.show_date, 'YYYY-MM-DD') AS show_date,
@@ -143,7 +143,7 @@
 		    s.price
 		FROM MOVIE_SHOWTIMES s
 		JOIN MOVIE_CINEMAS c ON s.cinema_id = c.cinema_id
-		WHERE s.movie_id = 1 
+		WHERE s.movie_id = #{ movieId } 
 		    AND s.status = 'AVAILABLE'
 		ORDER BY s.show_date, s.start_time
 	</select>
