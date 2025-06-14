@@ -40,6 +40,12 @@ public class MainController {
 		return "index";
 	}
 	
+	@GetMapping("/reservation")
+	public String reservationPage(Model m) {
+		m.addAttribute("selectAllReservationMovieTicket", reservationService.selectAllReservationMovieTicket());
+		return "reservation/reservation";
+	}
+	
 	@GetMapping("/reservation-code")
 	public String reservationCodePage(Model m) {
 		m.addAttribute("selectAllReservationMovieTicket", reservationService.selectAllReservationMovieTicket());

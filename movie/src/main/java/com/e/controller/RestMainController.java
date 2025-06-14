@@ -85,6 +85,11 @@ public class RestMainController {
 	public ResponseEntity<List<MovieBookingDto>> movieAll() {
 		return ResponseEntity.ok(movieService.getMovieBookingList());
 	}
+	
+	@GetMapping("/reservation/reserved/movie/all")
+	public ResponseEntity<List<ReservationEntity>> getReservedFindAllMovies() {
+		return ResponseEntity.ok(reservationRepo.findAll());
+	}
 
 	@PostMapping("/user/admin/login")
 	public ResponseEntity<?> login(@RequestBody UserEntity entity) {
@@ -103,9 +108,9 @@ public class RestMainController {
 	@PostMapping("/reservation")
 	public ResponseEntity<?> reservationFunc(@RequestBody MovieReservationTicketDto req) {
 	    System.out.println("요청 데이터 : \n" + req);
-	    reservationService.reserved(req);
+	    String n = reservationService.reserved(req);
 	    showtimeService.updateReservationMovieTicketSeat(req.getPeople(), req.getShowtimeId());
-	    return ResponseEntity.ok(reservationService.randVariable());
+	    return ResponseEntity.ok(n);
 	}
 	
 	@GetMapping("/occupied-seats")

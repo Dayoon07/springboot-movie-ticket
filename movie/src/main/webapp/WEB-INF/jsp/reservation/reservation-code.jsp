@@ -11,23 +11,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-	<c:forEach var="sarmt" items="${ selectAllReservationMovieTicket }">
-		<div style="display: flex; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
-			<div style="margin-right: 10px;">
-				<img alt="..." src="${ sarmt.reservationMoviePosterUrl }" style="width: 200px;">
+	<div style="display: grid; grid-template-columns: 425px 425px 425px 425px;">
+		<c:forEach var="sarmt" items="${ selectAllReservationMovieTicket }" varStatus="varSarmt">
+			<div style="margin-bottom: 30px;">
+				${ varSarmt.index + 1 } <br />
+				<span onclick="navigator.clipboard.writeText(this.innerText).then(() => console.log(this.innerText))" 
+					style="font-size: xx-large; font-weight: bold; cursor: pointer;" 
+				>
+					${ sarmt.reservationCode }
+				</span>
 			</div>
-			<div>
-				<h2>
-					영화 제목 : ${ sarmt.movieTitle } (${ sarmt.cinemaName }) <br />
-					상영시간 : ${ sarmt.startShowTime }
-				</h2>
-				<h3>관람 연령 : ${ sarmt.ratingAge }</h3>
-				<p>
-					예약 좌석 : ${ sarmt.reservedSeats } <br />
-					총 관람료 : <fmt:formatNumber value="${ sarmt.totalAmount }" type="number" />원 <br />
-				</p>
-			</div>
-		</div>
-	</c:forEach>
+		</c:forEach>
+	</div>
 </body>
 </html>

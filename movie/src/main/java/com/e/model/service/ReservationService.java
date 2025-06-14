@@ -47,7 +47,7 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 	
-	public void reserved(MovieReservationTicketDto dto) {
+	public String reserved(MovieReservationTicketDto dto) {
 	    // 사용자 조회
 	    UserEntity user = userRepo.findById(dto.getUserId())
 	        .orElseThrow(() -> new IllegalArgumentException("사용자 정보를 찾을 수 없습니다."));
@@ -60,6 +60,8 @@ public class ReservationService {
 	    if (reservationRepo.existsByShowtimeAndReservedSeatsContaining(showtime, dto.getSeats().get(0))) {
 	        throw new IllegalArgumentException("이미 예약된 좌석이 포함되어 있습니다.");
 	    }
+	    
+	    String randN = randVariable();
 
 	    // 예약 정보 생성
 	    ReservationEntity entity = ReservationEntity.builder()
@@ -69,11 +71,12 @@ public class ReservationService {
 	        .reservationMoviePosterUrl(dto.getMoviePosterImageUrl())
 	        .totalAmount(dto.getTotalPrice())
 	        .reservationStatus("CONFIRMED")
-	        .reservationCode(randVariable())
+	        .reservationCode(randN)
 	        .paymentMethod(dto.getPaymentMethod())
 	        .build();
 
 	    reservationRepo.save(entity);
+	    return randN;
 	}
 	
 	public String randVariable() {

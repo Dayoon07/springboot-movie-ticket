@@ -17,12 +17,16 @@
 		관리자 계정 입력
 	</a>
 	
-	<a href="${ cl }/reservation-code" class="text-black border-black border hover:bg-black hover:text-white duration-300 m-4 font-bold py-2 px-4 rounded">
-		영화 예매 코드 확인
+	<a href="${ cl }/reservation" class="text-black border-black border hover:bg-black hover:text-white duration-300 m-4 font-bold py-2 px-4 rounded">
+		영화 예매 정보 확인
 	</a>
 	
 	<a href="${ cl }/analyze" class="text-black border-black border hover:bg-black hover:text-white duration-300 m-4 font-bold py-2 px-4 rounded">
 		영화 예매 프로그램 DB 데이터 시각화
+	</a>
+	
+	<a href="${ cl }/reservation-code" class="text-black border-black border hover:bg-black hover:text-white duration-300 m-4 font-bold py-2 px-4 rounded">
+		예매 코드 확인
 	</a>
 	
 	<script src="https://cdn.tailwindcss.com/3.4.16"></script>
