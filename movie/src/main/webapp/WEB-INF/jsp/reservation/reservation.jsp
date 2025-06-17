@@ -11,7 +11,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-	<c:forEach var="sarmt" items="${ selectAllReservationMovieTicket }">
+	<c:forEach var="sarmt" items="${ selectAllReservationMovieTicket }" varStatus="varSarmt">
 		<div style="display: flex; cursor: pointer;" onmouseover="this.style.backgroundColor='lightgray'" onmouseout="this.style.backgroundColor='white'">
 			<div style="margin-right: 10px;">
 				<img alt="..." src="${ sarmt.reservationMoviePosterUrl }" style="width: 200px;">
@@ -25,6 +25,7 @@
 				<p>
 					예약 좌석 : ${ sarmt.reservedSeats } <br />
 					총 관람료 : <fmt:formatNumber value="${ sarmt.totalAmount }" type="number" />원 <br />
+					${ sarmt.reservationCode }
 				</p>
 			</div>
 		</div>

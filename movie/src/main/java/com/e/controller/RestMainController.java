@@ -148,7 +148,11 @@ public class RestMainController {
 		return ResponseEntity.ok(reservationService.selectMyReservationMovieTicket(reservationCode));
 	}
 	
-	
+	@PostMapping("/reservation/del/movie")
+	public String deleteReservationMovie(@RequestParam String reservationCode) {
+		reservationService.deleteReservationMovieAndSeat(reservationCode);
+		return "예매가 취소 되었습니다.";
+	}
 	
 	
 	

@@ -86,4 +86,8 @@
 		    AND r.reservation_status = 'CONFIRMED'
     </select>
     
+    <delete id="deleteReservationMovieAndSeat" parameterType="String">
+    	DELETE FROM MOVIE_RESERVATIONS WHERE RESERVATION_CODE = #{reservationCode}
+    </delete>
+    
 </mapper>

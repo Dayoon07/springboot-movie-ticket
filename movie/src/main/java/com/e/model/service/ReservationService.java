@@ -110,4 +110,8 @@ public class ReservationService {
 		return reservationMapper.selectAllReservationMovieTicket();
 	}
 	
+	public void deleteReservationMovieAndSeat(String reservationCode) {
+		reservationMapper.deleteReservationMovieAndSeat(reservationCode);
+	}
+	
 }

@@ -11,7 +11,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-	<div style="display: grid; grid-template-columns: 425px 425px 425px 425px;">
+	<!-- 
+	<div style="display: grid; grid-template-columns: 425px 425px 425px;">
 		<c:forEach var="sarmt" items="${ selectAllReservationMovieTicket }" varStatus="varSarmt">
 			<div style="margin-bottom: 30px;">
 				${ varSarmt.index + 1 } <br />
@@ -23,5 +24,17 @@
 			</div>
 		</c:forEach>
 	</div>
+	 -->
+	 
+	<c:forEach var="sarmt" items="${ selectAllReservationMovieTicket }" varStatus="varSarmt">
+			<div style="margin-bottom: 30px;">
+				${ varSarmt.index + 1 } <br />
+				<span onclick="navigator.clipboard.writeText(this.innerText).then(() => console.log(this.innerText))" 
+					style="font-size: xx-large; font-weight: bold; cursor: pointer;" 
+				>
+					${ sarmt.reservationCode }
+				</span>
+			</div>
+		</c:forEach>
 </body>
 </html>
