@@ -6,9 +6,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +35,7 @@ import com.e.model.repository.MovieRepo;
 import com.e.model.repository.ReservationRepo;
 import com.e.model.repository.ShowtimeRepo;
 import com.e.model.repository.UserRepo;
+import com.e.model.service.AichatService;
 import com.e.model.service.CinemaService;
 import com.e.model.service.MovieService;
 import com.e.model.service.ReservationService;
@@ -40,6 +44,7 @@ import com.e.model.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 
 @RequestMapping(path = "/api")
 @Slf4j
@@ -58,6 +63,8 @@ public class RestMainController {
 	private final ReservationRepo reservationRepo;
 	private final ShowtimeRepo showtimeRepo;
 	private final UserRepo userRepo;
+	
+	private final AichatService aichatService;
 	
 	private final BCryptPasswordEncoder passwordEncoder;
 	
@@ -94,6 +101,7 @@ public class RestMainController {
 	@PostMapping("/user/admin/login")
 	public ResponseEntity<?> login(@RequestBody UserEntity entity) {
 	    UserEntity user = userRepo.findByName(entity.getName()).get(0);
+	    System.out.println(entity.getName());
 
 	    if (user == null || !passwordEncoder.matches(entity.getPassword(), user.getPassword())) {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -154,7 +162,13 @@ public class RestMainController {
 		return "예매가 취소 되었습니다.";
 	}
 	
-	
+	@GetMapping(value = "/ai/chat", produces = MediaType.TEXT_PLAIN_VALUE)
+	@CrossOrigin(origins = "*")
+	public ResponseEntity<Flux<String>> generateMovieTxtVal(@RequestParam String q) {
+	    System.out.println("Question: " + q);
+	    
+	    return ResponseEntity.ok(aichatService.generateMovieTxtVal(q));
+	}
 	
 	
 	
