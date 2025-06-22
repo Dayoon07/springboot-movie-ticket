@@ -114,4 +114,8 @@ public class ReservationService {
 		reservationMapper.deleteReservationMovieAndSeat(reservationCode);
 	}
 	
+	public void restoreAvailableSeatsByReservationCode(String reservationCode) {
+		reservationMapper.restoreAvailableSeatsByReservationCode(reservationCode);
+	}
+	
 }

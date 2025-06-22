@@ -14,4 +14,5 @@ public interface ReservationMapper {
 	MovieReservationDto selectMyReservationMovieTicket(String reservationCode);
 	List<MovieReservationDto> selectAllReservationMovieTicket();
 	void deleteReservationMovieAndSeat(String reservationCode);
+	void restoreAvailableSeatsByReservationCode(String reservationCode);
 }

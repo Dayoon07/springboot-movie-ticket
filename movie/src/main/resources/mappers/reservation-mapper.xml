@@ -90,4 +90,18 @@
     	DELETE FROM MOVIE_RESERVATIONS WHERE RESERVATION_CODE = #{reservationCode}
     </delete>
     
+    <update id="restoreAvailableSeatsByReservationCode" parameterType="string">
+	    UPDATE MOVIE_SHOWTIMES
+	    SET available_seats = available_seats + (
+	        SELECT LENGTH(REGEXP_REPLACE(reserved_seats, '[^,]', '')) + 1
+	        FROM MOVIE_RESERVATIONS
+	        WHERE reservation_code = #{reservationCode}
+	    )
+	    WHERE showtime_id = (
+	        SELECT showtime_id
+	        FROM MOVIE_RESERVATIONS
+	        WHERE reservation_code = #{reservationCode}
+	    )
+	</update>
+    
 </mapper>
