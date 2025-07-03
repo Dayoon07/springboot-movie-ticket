@@ -86,17 +86,13 @@
 		    AND r.reservation_status = 'CONFIRMED'
     </select>
     
-    <delete id="deleteReservationMovieAndSeat" parameterType="String">
-    	DELETE FROM MOVIE_RESERVATIONS WHERE RESERVATION_CODE = #{reservationCode}
+    <delete id="cancelReservationMovieAndSeat" parameterType="String">
+    	UPDATE MOVIE_RESERVATIONS SET RESERVATION_STATUS = 'CANCELED' WHERE RESERVATION_CODE = #{reservationCode}
     </delete>
     
-    <update id="restoreAvailableSeatsByReservationCode" parameterType="string">
+    <update id="restoreAvailableSeats" parameterType="map">
 	    UPDATE MOVIE_SHOWTIMES
-	    SET available_seats = available_seats + (
-	        SELECT LENGTH(REGEXP_REPLACE(reserved_seats, '[^,]', '')) + 1
-	        FROM MOVIE_RESERVATIONS
-	        WHERE reservation_code = #{reservationCode}
-	    )
+	    SET available_seats = available_seats + #{seatCount}
 	    WHERE showtime_id = (
 	        SELECT showtime_id
 	        FROM MOVIE_RESERVATIONS

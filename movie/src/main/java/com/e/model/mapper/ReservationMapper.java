@@ -13,6 +13,6 @@ public interface ReservationMapper {
 	List<String> selectGetReservationMovieInfo(Long showtimeId);
 	MovieReservationDto selectMyReservationMovieTicket(String reservationCode);
 	List<MovieReservationDto> selectAllReservationMovieTicket();
-	void deleteReservationMovieAndSeat(String reservationCode);
-	void restoreAvailableSeatsByReservationCode(String reservationCode);
+	void cancelReservationMovieAndSeat(String reservationCode);
+	void restoreAvailableSeats(String reservationCode, int seatCount);
 }

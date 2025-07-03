@@ -3,9 +3,11 @@ package com.e.model.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -56,9 +58,22 @@ public class ReservationService {
 	    ShowtimeEntity showtime = showtimeRepo.findById(dto.getShowtimeId())
 	        .orElseThrow(() -> new IllegalArgumentException("상영 정보를 찾을 수 없습니다."));
 
-	    // 중복 좌석 체크
-	    if (reservationRepo.existsByShowtimeAndReservedSeatsContaining(showtime, dto.getSeats().get(0))) {
-	        throw new IllegalArgumentException("이미 예약된 좌석이 포함되어 있습니다.");
+	    // 이미 예약된 좌석 불러오기 (해당 상영 시간의 모든 예약된 좌석)
+	    List<ReservationEntity> existingReservations = reservationRepo.findByShowtime(showtime);
+
+	    // 예약된 모든 좌석을 Set으로 분리
+	    Set<String> alreadyReserved = new HashSet<>();
+	    for (ReservationEntity r : existingReservations) {
+	        if (r.getReservedSeats() != null) {
+	            alreadyReserved.addAll(List.of(r.getReservedSeats().split(",")));
+	        }
+	    }
+
+	    // 사용자가 요청한 좌석 목록과 중복되는 좌석이 있는지 확인
+	    for (String seat : dto.getSeats()) {
+	        if (alreadyReserved.contains(seat)) {
+	            throw new IllegalArgumentException("이미 예약된 좌석이 포함되어 있습니다: " + seat);
+	        }
 	    }
 	    
 	    String randN = randVariable();
@@ -110,12 +125,12 @@ public class ReservationService {
 		return reservationMapper.selectAllReservationMovieTicket();
 	}
 	
-	public void deleteReservationMovieAndSeat(String reservationCode) {
-		reservationMapper.deleteReservationMovieAndSeat(reservationCode);
+	public void cancelReservationMovieAndSeat(String reservationCode) {
+		reservationMapper.cancelReservationMovieAndSeat(reservationCode);
 	}
 	
-	public void restoreAvailableSeatsByReservationCode(String reservationCode) {
-		reservationMapper.restoreAvailableSeatsByReservationCode(reservationCode);
+	public void restoreAvailableSeats(String reservationCode, int seatCount) {
+	    reservationMapper.restoreAvailableSeats(reservationCode, seatCount);
 	}
 	
 }

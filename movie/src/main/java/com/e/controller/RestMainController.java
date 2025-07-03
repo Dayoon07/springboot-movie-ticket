@@ -1,12 +1,8 @@
 package com.e.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.e.model.dto.MovieBookingDto;
-import com.e.model.dto.MovieDto;
 import com.e.model.dto.MovieInfoDto;
 import com.e.model.dto.MovieReservationDto;
 import com.e.model.dto.MovieReservationTicketDto;
@@ -35,7 +30,7 @@ import com.e.model.repository.MovieRepo;
 import com.e.model.repository.ReservationRepo;
 import com.e.model.repository.ShowtimeRepo;
 import com.e.model.repository.UserRepo;
-import com.e.model.service.AichatService;
+import com.e.model.service.AiChatService;
 import com.e.model.service.CinemaService;
 import com.e.model.service.MovieService;
 import com.e.model.service.ReservationService;
@@ -64,7 +59,7 @@ public class RestMainController {
 	private final ShowtimeRepo showtimeRepo;
 	private final UserRepo userRepo;
 	
-	private final AichatService aichatService;
+	private final AiChatService aiChatService;
 	
 	private final BCryptPasswordEncoder passwordEncoder;
 	
@@ -157,21 +152,28 @@ public class RestMainController {
 	}
 	
 	@PostMapping("/reservation/del/movie")
-	public String deleteReservationMovie(@RequestParam String reservationCode) {
-		reservationService.restoreAvailableSeatsByReservationCode(reservationCode);
-		reservationService.deleteReservationMovieAndSeat(reservationCode);
-		return "예매가 취소 되었습니다.";
+	public String deleteReservationMovie(@RequestBody Map<String, Object> body) {
+	    String reservationCode = (String) body.get("reservationCode");
+	    int seatCount = (int) body.get("seatCount");
+
+	    reservationService.restoreAvailableSeats(reservationCode, seatCount);
+	    reservationService.cancelReservationMovieAndSeat(reservationCode);
+	    return "예매가 취소 되었습니다.";
 	}
+
 	
 	@GetMapping(value = "/ai/chat", produces = MediaType.TEXT_PLAIN_VALUE)
 	@CrossOrigin(origins = "*")
 	public ResponseEntity<Flux<String>> generateMovieTxtVal(@RequestParam String q) {
 	    System.out.println("Question: " + q);
 	    
-	    return ResponseEntity.ok(aichatService.generateMovieTxtVal(q));
+	    return ResponseEntity.ok(aiChatService.generateMovieTxtVal(q));
 	}
 	
-	
+	@GetMapping("/search")
+	public ResponseEntity<List<MovieBookingDto>> movieSearch(@RequestParam String title) {
+		return ResponseEntity.ok(movieService.movieSearch(title));
+	}
 	
 	
 	

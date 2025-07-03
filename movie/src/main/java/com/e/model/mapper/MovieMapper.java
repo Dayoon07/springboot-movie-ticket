@@ -15,4 +15,5 @@ public interface MovieMapper {
 	List<MovieBookingDto> getMovieBookingList();
 	List<MovieBookingDto> getMovieShowtimes(long movidId);
 	List<MovieBookingDto> getMovieBookingListByDate(String showDate);
+	List<MovieBookingDto> movieSearch(String title);
 }

@@ -37,4 +37,8 @@ public class MovieService {
 		return movieMapper.getMovieBookingListByDate(showDate);
 	}
 	
+	public List<MovieBookingDto> movieSearch(String title) {
+		return movieMapper.movieSearch(title);
+	}
+	
 }

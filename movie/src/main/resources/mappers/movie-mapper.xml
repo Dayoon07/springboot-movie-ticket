@@ -43,25 +43,25 @@
     <!-- 영화 예매 정보 조회 -->
     <select id="getMovieBookingList" resultMap="movieBookingResultMap">
         SELECT 
-		    m.movie_id,                                           -- 영화 PK값
-		    m.title AS movie_title,                               -- 영화 이름
-		    m.poster_image_url,                                   -- 영화 포스터
-		    m.rating_age,                                         -- 관람 연령
-		    s.showtime_id,                                        -- 상영시간표 ID (예매시 필요)
-		    TO_CHAR(s.start_time, 'YYYY-MM-DD HH24:MI') AS start_time, -- 영화 시작 시간
-		    s.available_seats,                                    -- 남은 좌석 수
-		    c.cinema_name,                                        -- 상영관 이름 (추가 정보)
-		    c.cinema_type,                                        -- 상영관 타입 (추가 정보)
-		    s.price,                                              -- 티켓 가격 (추가 정보)
-		    m.genre,                                              -- 장르 (추가 정보)
-		    m.duration,                                           -- 상영 시간 (추가 정보)
+		    m.movie_id,
+		    m.title AS movie_title, 
+		    m.poster_image_url, 
+		    m.rating_age, 
+		    s.showtime_id, 
+		    TO_CHAR(s.start_time, 'YYYY-MM-DD HH24:MI') AS start_time, 
+		    s.available_seats, 
+		    c.cinema_name,  
+		    c.cinema_type, 
+		    s.price, 
+		    m.genre, 
+		    m.duration, 
 		    c.seat_layout 
 		FROM MOVIE_MOVIES m
 		JOIN MOVIE_SHOWTIMES s ON m.movie_id = s.movie_id
 		JOIN MOVIE_CINEMAS c ON s.cinema_id = c.cinema_id
-		WHERE s.status = 'AVAILABLE'                             -- 예매 가능한 상영만
-		    AND s.available_seats > 0                            -- 좌석이 남아있는 상영만
-		    AND s.show_date >= TRUNC(SYSDATE)                    -- 오늘 이후 상영만
+		WHERE s.status = 'AVAILABLE' 
+			AND s.available_seats > 0  
+		    AND s.show_date >= TRUNC(SYSDATE) 
 		ORDER BY s.start_time ASC
     </select>
 
@@ -146,6 +146,31 @@
 		WHERE s.movie_id = #{ movieId } 
 		    AND s.status = 'AVAILABLE'
 		ORDER BY s.show_date, s.start_time
+	</select>
+	
+	<select id="movieSearch" resultMap="movieBookingResultMap" parameterType="String">
+		SELECT 
+		    m.movie_id,
+			m.title AS movie_title, 
+			m.poster_image_url, 
+			m.rating_age, 
+			s.showtime_id, 
+			TO_CHAR(s.start_time, 'YYYY-MM-DD HH24:MI') AS start_time, 
+			s.available_seats, 
+			c.cinema_name,  
+			c.cinema_type, 
+			s.price, 
+			m.genre, 
+			m.duration, 
+			c.seat_layout 
+		FROM MOVIE_MOVIES m
+		JOIN MOVIE_SHOWTIMES s ON m.movie_id = s.movie_id
+		JOIN MOVIE_CINEMAS c ON s.cinema_id = c.cinema_id
+		WHERE s.status = 'AVAILABLE' 
+		    AND m.title LIKE '%' || #{ title } || '%' 
+		    AND s.available_seats > 0  
+			AND s.show_date >= TRUNC(SYSDATE) 
+		ORDER BY s.start_time ASC
 	</select>
 		
 </mapper>

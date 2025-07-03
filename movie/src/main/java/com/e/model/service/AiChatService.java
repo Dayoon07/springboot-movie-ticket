@@ -10,7 +10,7 @@ import reactor.core.publisher.Flux;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class AichatService {
+public class AiChatService {
 
 	private final ChatModel chatModel;
 
