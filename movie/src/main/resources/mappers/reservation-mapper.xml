@@ -56,7 +56,8 @@
 		JOIN MOVIE_SHOWTIMES s ON r.showtime_id = s.showtime_id
 		JOIN MOVIE_MOVIES m ON s.movie_id = m.movie_id
 		JOIN MOVIE_CINEMAS c ON s.cinema_id = c.cinema_id
-		WHERE r.reservation_code = #{ reservationCode }
+		WHERE r.reservation_status = 'CONFIRMED' 
+			r.reservation_code = #{ reservationCode }
     </select>
     
     <select id="selectAllReservationMovieTicket" resultMap="MovieReservationCodeResultMap">
